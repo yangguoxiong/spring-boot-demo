@@ -138,6 +138,15 @@ public class UserServiceTest extends SpringBootDemoOrmMybatisPlusApplicationTest
     }
 
     /**
+     * 根据用户名模糊查询用户集合
+     */
+    @Test
+    public void testGetUserByName() {
+        List<User> user = userService.getByName("user");
+        log.debug("根据用户名查询: {}", user);
+    }
+
+    /**
      * 初始化数据
      */
     private void initData() {

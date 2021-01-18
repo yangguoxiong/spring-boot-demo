@@ -2,7 +2,10 @@ package com.xkcoding.orm.mybatis.plus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xkcoding.orm.mybatis.plus.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface UserMapper extends BaseMapper<User> {
+
+    List<User> getByName(@Param("name") String name);
 }

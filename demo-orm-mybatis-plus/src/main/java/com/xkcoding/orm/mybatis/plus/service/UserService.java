@@ -3,6 +3,8 @@ package com.xkcoding.orm.mybatis.plus.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xkcoding.orm.mybatis.plus.entity.User;
 
+import java.util.List;
+
 /**
  * <p>
  * User Service
@@ -12,4 +14,6 @@ import com.xkcoding.orm.mybatis.plus.entity.User;
  * @date Created in 2018-11-08 18:10
  */
 public interface UserService extends IService<User> {
+
+    List<User> getByName(String name);
 }
