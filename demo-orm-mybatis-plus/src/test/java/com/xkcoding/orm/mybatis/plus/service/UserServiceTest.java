@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xkcoding.orm.mybatis.plus.SpringBootDemoOrmMybatisPlusApplicationTests;
@@ -84,6 +85,19 @@ public class UserServiceTest extends SpringBootDemoOrmMybatisPlusApplicationTest
         User update = userService.getById(1L);
         Assert.assertEquals("MybatisPlus修改名字", update.getName());
         log.debug("【update】= {}", update);
+    }
+
+    /**
+     * 测试Mybatis-Plus 修改2
+     */
+    @Test
+    public void testUpdate2() {
+        User user = userService.getById(1L);
+        user.setName("新修改");
+        LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper();
+        updateWrapper.eq(User::getId, user.getId());
+        boolean update = userService.update(user, updateWrapper);
+        log.debug("【更新结果】= {}", update);
     }
 
     /**

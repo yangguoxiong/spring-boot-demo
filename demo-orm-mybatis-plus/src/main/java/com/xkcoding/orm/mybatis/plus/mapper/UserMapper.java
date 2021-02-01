@@ -18,5 +18,11 @@ import java.util.List;
 @Component
 public interface UserMapper extends BaseMapper<User> {
 
+    /**
+     * 找到userMapper.xml对象对应的getByName的sql语句
+     *
+     * @param name
+     * @return
+     */
     List<User> getByName(@Param("name") String name);
 }
