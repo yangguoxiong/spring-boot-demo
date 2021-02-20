@@ -1,11 +1,13 @@
 package com.duizhuang.demoownthings.config;
 
+import com.duizhuang.demoownthings.converter.DateConverter;
 import com.duizhuang.demoownthings.filter.RequestFilter;
 import com.duizhuang.demoownthings.interceptor.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -61,6 +63,16 @@ public class WebConfigure {
             registry.addInterceptor(requestInterceptor)
                 // 所有请求都被拦截,包括静态资源
                 .addPathPatterns("/**");
+        }
+
+        /**
+         * 自定义参数converter
+         *
+         * @param registry
+         */
+        @Override
+        public void addFormatters(FormatterRegistry registry) {
+            registry.addConverter(new DateConverter());
         }
     }
 }

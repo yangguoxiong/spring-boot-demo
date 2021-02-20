@@ -13,9 +13,12 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>demo-own-things</name>
   <description>Demo for own things</description>
+
   <properties>
     <java.version>1.8</java.version>
+    <hutool.version>5.4.5</hutool.version>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -46,6 +49,13 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>${hutool.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>
