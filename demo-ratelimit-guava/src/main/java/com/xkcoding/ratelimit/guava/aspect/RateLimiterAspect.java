@@ -43,6 +43,7 @@ public class RateLimiterAspect {
             double qps = rateLimiter.qps();
             if (RATE_LIMITER_CACHE.get(method.getName()) == null) {
                 // 初始化 QPS
+                // qps = 1 表示每秒最多一个请求 qps = 2 表示每秒最多2个请求
                 RATE_LIMITER_CACHE.put(method.getName(), com.google.common.util.concurrent.RateLimiter.create(qps));
             }
 

@@ -6,8 +6,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
@@ -29,6 +31,9 @@ public class RedisTest extends SpringBootDemoCacheRedisApplicationTests {
     @Autowired
     private RedisTemplate<String, Serializable> redisCacheTemplate;
 
+    @Autowired
+    private RedisScript<Long> luaRedisScript;
+
     /**
      * 测试 Redis 操作
      */
@@ -48,5 +53,12 @@ public class RedisTest extends SpringBootDemoCacheRedisApplicationTests {
         // 对应 String（字符串）
         User user = (User) redisCacheTemplate.opsForValue().get(key);
         log.debug("【user】= {}", user);
+    }
+
+    @Test
+    public void testLua() {
+        // 测试lua脚本
+        Long count = stringRedisTemplate.execute(luaRedisScript, Collections.singletonList("count"), 1 + "", 3 + "");
+        System.out.println(count);
     }
 }

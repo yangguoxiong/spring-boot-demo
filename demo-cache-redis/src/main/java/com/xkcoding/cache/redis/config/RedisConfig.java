@@ -11,6 +11,8 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -52,5 +54,24 @@ public class RedisConfig {
         RedisCacheConfiguration redisCacheConfiguration = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())).serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 
         return RedisCacheManager.builder(factory).cacheDefaults(redisCacheConfiguration).build();
+    }
+
+    /**
+     * 定义redis的lua脚本bean
+     */
+    @Bean
+    public RedisScript<Long> luaRedisScript() {
+        DefaultRedisScript redisScript = new DefaultRedisScript<>();
+        // 方式一: 指定lua脚本的文件位置
+        // redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("redis/test.lua")));
+        // 方式二: 直接设置lua脚本字符串
+        redisScript.setScriptText("if redis.call('get', KEYS[1]) > ARGV[1]\n" +
+            "then\n" +
+            "return redis.call('incrby', KEYS[1], ARGV[2])\n" +
+            "else\n" +
+            "\treturn 0\n" +
+            "end\n");
+        redisScript.setResultType(Long.class);
+        return redisScript;
     }
 }
